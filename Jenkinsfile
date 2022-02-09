@@ -8,7 +8,7 @@ pipeline{
     environment {
       ArtifactId = readMavenPom().getArtifactId()
       Version = readMavenPom().getVersion()
-
+      GroupId = readMavenPom().getGroupId()
       Name = readMavenPom().getName()
     }
     stages {
@@ -51,7 +51,7 @@ pipeline{
           steps {
             echo "Artifact Id is '${ArtifactId}'"
             echo "Version is '${Version}'"
-            echo "GroupId is '${}'"
+            echo "GroupId is '${GroupId}'"
             echo "Name is '${Name}'"
           }
         }
