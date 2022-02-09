@@ -33,17 +33,17 @@ pipeline{
         stage ('Publish'){
             steps {
               nexusArtifactUploader artifacts:
-               [[artifactId: 'VinayDevOpsLab',
+               [[artifactId: '${ArtifactId}',
                classifier: '',
                file: 'target/VinayDevOpsLab-0.0.9-SNAPSHOT.war',
                type: 'war']],
                 credentialsId: 'a0195b63-e930-4369-a221-d18da7c9cd59',
-                groupId: 'com.vinasydevopslab',
+                groupId: '${GroupId}',
                 nexusUrl: '10.255.161.149:8081',
                 nexusVersion: 'nexus3',
                 protocol: 'http',
                 repository: 'PascalDevOpsLab-SNAPSHOT',
-                version: '0.0.9-SNAPSHOT'
+                version: '${$Version}'
             }
         }
 
