@@ -32,18 +32,24 @@ pipeline{
         // Stage3 : Publish the source code to Sonarqube
         stage ('Publish'){
             steps {
-              nexusArtifactUploader artifacts:
-               [[artifactId: "${ArtifactId}",
-               classifier: '',
-               file: "target/VinayDevOpsLab-${Version}.war",
-               type: 'war']],
+              script {
+
+              def NexusRepo = Version.endsWith("SNAPSHOT") ? "PascalDevOpsLab-SNAPSHOT" | "PascalDevOpsLab-Release"
+
+                nexusArtifactUploader artifacts:
+                [[artifactId: "${ArtifactId}",
+                classifier: '',
+                file: "target/VinayDevOpsLab-${Version}.war",
+                type: 'war']],
                 credentialsId: 'a0195b63-e930-4369-a221-d18da7c9cd59',
                 groupId: "${GroupId}",
                 nexusUrl: '10.255.161.149:8081',
                 nexusVersion: 'nexus3',
                 protocol: 'http',
-                repository: 'PascalDevOpsLab-SNAPSHOT',
+                repository: "${NexusRepo}",
                 version: "${Version}"
+
+              }
             }
         }
 
