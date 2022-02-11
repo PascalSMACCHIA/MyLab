@@ -74,23 +74,20 @@ pipeline{
 
         stage ('Remote SSH'){
           steps {
-          scripts {
+          script {
 
+              def remote = [:]
+              remote.name = "tomcat"
+              remote.host = "10.255.161.226"
+              remote.user = 'ansibleadmin'
+              remote.password = 'ansibleansible'
+              remote.allowAnyHosts = true
 
-          def remote = [:]
-          remote.name = "tomcat"
-          remote.host = "10.255.161.226"
-          remote.user = 'ansibleadmin'
-          remote.password = 'ansibleansible'
-          remote.allowAnyHosts = true
+              echo "Deploying the file war on Tomcat servers ..."
+              sshCommand( remote: remote, command: ansible-playbook /opt/ansible/downloadanddeploy.yaml -i /opt/ansible/hosts)
 
-          
-                echo "Deploying the file war on Tomcat servers ..."
-                sshCommand( remote: remote, command: ansible-playbook /opt/ansible/downloadanddeploy.yaml -i /opt/ansible/hosts)
-
-                }
               }
-
+            }
           }
 
 
