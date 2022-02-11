@@ -77,8 +77,6 @@ pipeline{
                 sshCommand( remote: remote, command: ansible-playbook /opt/ansible/downloadanddeploy.yaml -i /opt/ansible/hosts)
 
                 }
-            }
-            }
           }
 
     }
