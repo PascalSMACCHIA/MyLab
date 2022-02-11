@@ -30,6 +30,7 @@ pipeline{
         }
 
         // Stage3 : Publish the source code to Sonarqube
+
         stage ('Publish'){
             steps {
               script {
@@ -53,6 +54,8 @@ pipeline{
             }
         }
 
+        // Stage 4 : Print some information
+
         stage ('Print environment Variables'){
           steps {
             echo "Artifact Id is '${ArtifactId}'"
@@ -62,9 +65,22 @@ pipeline{
           }
         }
 
+        // stage 5 : Deploying the build artifact to apache Tomcat
 
-
-
+        node {
+          def remote = [:]
+          remote.name = 'Tomcat'
+          remote.host = '10.255.161.226'
+          remote.user = 'ansibleadmin'
+          remote.identyFile = '~/.ssh/id_rsa'
+          remote.allowAnyHosts = true
+        stage ('Remote SSH'){
+            steps {
+              echo "Deploying the file war on Tomcat servers ..."
+              sshCommand( remote: remote, command: ansible-playbook /opt/ansible/downloadanddeploy.yaml -i /opt/ansible/hosts)
+            }
+          }
+        }
     }
 
 }
