@@ -71,21 +71,12 @@ pipeline{
         // stage 5 : Deploying the build artifact to apache Tomcat
 
 
-        def remote = [:]
-        remote.name = "tomcat"
-        remote.host = "10.255.161.226"
-        remote.allowAnyHosts = true
-
-        node {
-            withCredentials([sshUserPrivateKey(credentialsId: 'ansibladmin', keyFileVariable: 'identity', passphraseVariable: '', usernameVariable: 'userName')]) {
-                remote.user = userName
-                remote.identityFile = identity
-
         stage ('Remote SSH'){
+          steps {
                 echo "Deploying the file war on Tomcat servers ..."
                 sshCommand( remote: remote, command: ansible-playbook /opt/ansible/downloadanddeploy.yaml -i /opt/ansible/hosts)
 
-
+                }
             }
             }
           }
