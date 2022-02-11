@@ -74,6 +74,7 @@ pipeline{
 
         stage ('Remote SSH'){
           steps {
+          scripts {
           def remote = [:]
           remote.name = "tomcat"
           remote.host = "10.255.161.226"
@@ -89,7 +90,10 @@ pipeline{
                 sshCommand( remote: remote, command: ansible-playbook /opt/ansible/downloadanddeploy.yaml -i /opt/ansible/hosts)
 
                 }
+              }
+            }
           }
+
 
     }
 
