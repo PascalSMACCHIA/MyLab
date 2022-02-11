@@ -72,7 +72,7 @@ pipeline{
 
 
 
-        stage ('Remote SSH'){
+        stage ('Deploying war on tomcat server'){
           steps {
           script {
 
@@ -90,6 +90,25 @@ pipeline{
             }
           }
 
+          // stage 5 : Deploying the build artifact on docker
+
+                  stage ('Deploying war on docker server'){
+                    steps {
+                    script {
+
+                        def remote = [:]
+                        remote.name = "tomcat"
+                        remote.host = "10.255.161.226"
+                        remote.user = 'ansibleadmin'
+                        remote.password = 'ansibleansible'
+                        remote.allowAnyHosts = true
+
+                        echo "Deploying the file war on Tomcat servers ..."
+                        sshCommand( remote: remote, command: "ansible-playbook /opt/ansible/downloadanddeploy_as_docker.yaml -i /opt/ansible/hosts")
+
+                        }
+                      }
+                    }
 
     }
 
