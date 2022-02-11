@@ -12,14 +12,7 @@ pipeline{
       Name = readMavenPom().getName()
     }
 
-    node {
-      def remote = [:]
-      remote.name = 'Tomcat'
-      remote.host = '10.255.161.226'
-      remote.user = 'ansibleadmin'
-      remote.identyFile = '~/.ssh/id_rsa'
-      remote.allowAnyHosts = true
-    }
+
 
     stages {
         // Specify various stage with in stages
@@ -81,8 +74,16 @@ pipeline{
 
         stage ('Remote SSH'){
             steps {
+            script {
+              def remote = [:]
+              remote.name = 'Tomcat'
+              remote.host = '10.255.161.226'
+              remote.user = 'ansibleadmin'
+              remote.identyFile = '~/.ssh/id_rsa'
+              remote.allowAnyHosts = true
               echo "Deploying the file war on Tomcat servers ..."
               sshCommand( remote: remote, command: ansible-playbook /opt/ansible/downloadanddeploy.yaml -i /opt/ansible/hosts)
+              }
             }
           }
 
