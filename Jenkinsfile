@@ -84,7 +84,7 @@ pipeline{
               remote.allowAnyHosts = true
 
               echo "Deploying the file war on Tomcat servers ..."
-              sshCommand( remote: remote, command: touch /tmp/tets)
+              sshCommand( remote: remote, command: "ansible-playbook /opt/ansible/downloadanddeploy.yaml -i /opt/ansible/hosts")
 
               }
             }
